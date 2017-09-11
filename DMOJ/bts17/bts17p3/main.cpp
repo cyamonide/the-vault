@@ -3,28 +3,28 @@
 #include <math.h>
 using namespace std;
 
-double rmax(int ri) {
+double rmax(long long ri) {
     if (ri % 2 == 1) {
-        return ri + 0.4999999999;
+        return 0.499999999999;
     } else {
-        return ri + 0.5;
+        return 0.5;
     }
 }
 
-double rmin(int ri) {
+double rmin(long long ri) {
     if (ri % 2 == 1) {
-        return ri - 0.4999999999;
+        return -0.499999999999;
     } else {
-        return ri - 0.5;
+        return -0.5;
     }
 }
 
-int rround(double r) {
-    if (r - static_cast<int>(r) == 0.5) {
-        if (static_cast<int>(r) % 2 == 1) {
-            return static_cast<int>(r) + 1;
-        } else {
-            return static_cast<int>(r);
+long long rround(double r) {
+    if (r - static_cast<long long>(r) == 0.5) { // if in between
+        if (static_cast<long long>(r) % 2 == 1) { // if odd round up
+            return static_cast<long long>(r) + 1;
+        } else { // if even round down
+            return static_cast<long long>(r);
         }
     }
     return round(r);
@@ -33,27 +33,36 @@ int rround(double r) {
 int main() {
 
     // rounded distances
-    vector<int> r;
+    vector<long> r;
     // number of distances
-    int N;
+    long long N;
     cin >> N;
-    for (int i = 1; i <= N; i++) {
-        int itmp;
+    for (long long i = 1; i <= N; i++) {
+        long long itmp;
         cin >> itmp;
         r.push_back(itmp);
     }
 
-    double max = 0;
-    for (int a : r) {
-        max += rmax(a);
+    int odds = 0;
+    int evens = 0;
+    long long sum = 0;
+    for (long long i : r) {
+      sum += i;
+      if (i % 2 == 1) odds++;
+      else evens++;
     }
+
+
+
+    double max = 0;
+    max += odds * 0.499;
+    max += evens * 0.5;
 
     double min = 0;
-    for (int a : r) {
-        min += rmin(a);
-    }
+    min -= odds * 0.499;
+    min -= evens * 0.499;
 
-    cout << rround(min) << endl << rround(max) << endl;
+    cout << rround(sum + min) << endl << rround(sum + max) << endl;
 
     return 0;
 }

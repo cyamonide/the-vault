@@ -2,6 +2,8 @@
 #include <vector>
 using namespace std;
 
+typedef vector<int>::const_iterator pos;
+
 int main() {
     int N; // length of wet mud
     int M; // number of wet parts that will become dry
@@ -26,10 +28,43 @@ int main() {
     // now a path of N units has been created, with the pth value being the drying time of the pth inch of mud.
     // a value of -1 indicates an inch of mud that will not dry
 
-    vector<int>::const_iterator denesh = path.begin()-1; // the current position of denesh
+    pos denesh = path.begin()-1; // the current position of denesh
     int t = 0; // the current time
-    // keep on checking for the next jump until denesh reaches the end
 
+    while (denesh < path.end()) {
+      // end of field of view
+      pos last = denesh + J;
+      // exit if end of path
+      if (last >= path.end()) break;
+
+      // check if a possible jump exists in this FOV
+      bool isPossible = false;
+      pos minLocalTime;
+      for (pos i = denesh + 1; i <= last; i++) {
+        if (*i != -1) {
+          isPossible = true;
+          minLocalTime = i; // pointer to minimum time value
+          break;
+        }
+      }
+      if (!isPossible) {
+        cout << -1 << endl;
+        return 0;
+      }
+
+      // look for minimum local time in this FOV
+      for (pos i = denesh + 1; i <= last; i++) {
+        if (*i < *minLocalTime && *i != -1) minLocalTime = i;
+      }
+
+      // move denesh to this minimum time value
+      denesh = minLocalTime;
+      if (*minLocalTime > t) t = *minLocalTime;
+    }
+
+    cout << t << endl;
+
+/*
     while (denesh <= path.end() - J) {
         // let us define FOV as the next J inches of mud
         // extract subvector of denesh's current FOV
@@ -77,6 +112,7 @@ int main() {
     }
 
     cout << t << endl;
+    */
 
     return 0;
 }
