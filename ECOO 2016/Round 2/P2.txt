@@ -1,0 +1,149 @@
+//
+// (c) 2016 Cyamonide.
+// ECOO 2016
+//
+
+#include <iostream>
+#include <string>
+#include <fstream>
+#include <vector>
+
+using namespace std;
+
+vector<string> stov(string sentence) {
+	vector<string> output;
+	string temp = "";
+	for (char a : sentence) {
+		if (a == ' ') {
+			output.push_back(temp);
+			temp = "";
+		}
+		else {
+			temp += a;
+		}
+	}
+	output.push_back(temp);
+	return output;
+}
+
+#define testFileLoc "C:/Users/cyamo/Desktop/DATA21.txt"
+
+int main() {
+	// file IO
+	ifstream input;
+	if (true) {
+		input.open(testFileLoc, ios::in);
+		if (!input.is_open()) { cout << "\n--- ERROR ---\n" << testFileLoc << " failed to open." << endl; return 0; }
+	}
+
+	for (int batch = 1; batch <= 10; batch++) {
+		int K;
+		string crypt;
+		string output;
+
+		input >> K;
+		K %= 26;
+		getline(input, crypt);
+		getline(input, crypt);
+		output = "";
+
+		// encryp/decryp FINAL
+		string type = "";
+		if (true) {
+			for (char a : crypt) {
+				if (a == ' ') {
+					type = "encrypt";
+					break;
+				}
+			}
+			if (type == "") {
+				type = "decrypt";
+			}
+		}
+
+		if (type == "decrypt") {
+										// shift //
+			// last
+			output = static_cast<char>(((crypt.back() - 97 + 26 - K) % 26) + 97);
+			for (int i = crypt.length() - 2; i >= 0; i--) {
+				int shift = K;
+				for (char a : output) {
+					shift += (a - 97);
+				}
+				shift %= 26;
+				output = static_cast<char>(((crypt[i] - 97 + 26 - shift) % 26)+97) + output;
+			}
+
+			crypt = output;
+			output = "";
+										// base 26 conv //
+			int wordcount = ((crypt[0] - 97) * 26) + crypt[1] - 97;
+			crypt = crypt.substr(2);
+
+			vector<int> wordLens = {};
+			for (int i = 0; i < wordcount; i++) {
+				wordLens.push_back(crypt[i] - 97);
+			}
+			crypt = crypt.substr(wordcount);
+
+										// output //
+
+			int foo = 0;
+			for (int a : wordLens) {
+				for (int i = 1; i <= a; i++) {
+					cout << crypt[foo++];
+				}
+				cout << " ";
+			}
+			cout << endl;
+		}
+
+		else if (type == "encrypt") {
+										// base 26 wordcount append //
+			int wordcount = 1;
+			for (char a : crypt) {
+				if (a == ' ') {
+					wordcount++;
+				}
+			}
+			output = "";
+			output += static_cast<char>((wordcount / 26) + 97);
+			output += static_cast<char>((wordcount % 26) + 97);
+
+										// base 26 wordlens append //
+			int counter = 0;
+			for (char a : crypt) {
+				if (a == ' ') {
+					output += static_cast<char>(counter + 97);
+					counter = 0;
+				}
+				else {
+					counter++;
+				}
+			}
+			output += static_cast<char>(counter + 97);
+
+										// rotation //
+			// adds stripped crypt to end of output
+			for (char a : crypt) {
+				if (a != ' ') {
+					output += a;
+				}
+			}
+			// starts rotation
+			for (int i = 0; i < output.length(); i++) {
+				int shift = K;
+				for (int h = i+1; h < output.length(); h++) {
+					shift += (output[h] - 97);
+				}
+				shift %= 26;
+				output[i] = static_cast<char>(((output[i] - 97 + 26 + shift) % 26) + 97);
+			}
+
+			cout << output << endl;
+		}
+
+	} // end of batch counter
+
+	return 0;
+}

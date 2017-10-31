@@ -1,0 +1,84 @@
+//
+// (c) 2016 Cyamonide.
+// ECOO 2016
+//
+
+#include <iostream>
+#include <string>
+#include <fstream>
+#include <vector>
+
+using namespace std;
+
+vector<string> stov(string sentence) {
+	vector<string> output;
+	string temp = "";
+	for (char a : sentence) {
+		if (a == ' ') {
+			output.push_back(temp);
+			temp = "";
+		}
+		else {
+			temp += a;
+		}
+	}
+	output.push_back(temp);
+	return output;
+}
+
+bool isPal(string test) {
+	int foo = test.length() / 2; // half of length
+	if (test.length() % 2 == 1) { // removes middle char
+		test = test.substr(0, foo) + test.substr(foo + 1, foo);
+	}
+	for (int i = 0; i < foo; i++) {
+		if (test[i] != test[test.length() - 1 - i]) {
+			return false;
+		}
+	}
+	return true;
+}
+
+#define testFileLoc "C:/Users/cyamo/Desktop/DATA11.txt"
+
+int main() {
+	// file IO
+	ifstream input;
+	if (true) {
+		input.open(testFileLoc, ios::in);
+		if (!input.is_open()) { cout << "\n--- ERROR ---\n" << testFileLoc << " failed to open." << endl; return 0; }
+	}
+
+	for (int batch = 1; batch <= 10; batch++) {
+		string pal;
+		input >> pal;
+
+		if (isPal(pal)) {
+			cout << 0 << endl;
+			continue;
+		}
+
+		int output;
+
+		string test;
+		for (int i = 0; i < pal.length(); i++) {
+			test = pal.substr(i);
+			if (isPal(test)) {
+				output = i;
+				break;
+			}
+		}
+
+		for (int i = pal.length() - 1; i >= 0; i--) {
+			test = pal.substr(0, i + 1);
+			if (isPal(test) && (pal.length() - i - 1) < output) {
+				output = pal.length() - i - 1;
+				break;
+			}
+		}
+
+		cout << output << endl;
+	}
+
+	return 0;
+}

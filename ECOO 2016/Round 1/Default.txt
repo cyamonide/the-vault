@@ -1,0 +1,28 @@
+//
+// (c) 2016 Cyamonide.
+// ECOO 2016
+//
+
+#include <iostream>
+#include <string>
+#include <fstream>
+#include <vector>
+
+using namespace std;
+
+#define testFileLoc "C:/Users/cyamo/Desktop/DATA21.txt"
+
+int main() {
+	// file IO
+	ifstream input;
+	if (true) {
+		// cout << "Enter test file name/path" << endl;
+		// getline(cin, testFileLoc);
+		input.open(testFileLoc, ios::in);
+		if (!input.is_open()) { cout << "\n--- ERROR ---\n" << testFileLoc << " failed to open." << endl; return 0; }
+	}
+
+
+
+	return 0;
+}

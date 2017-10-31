@@ -1,0 +1,125 @@
+//
+// (c) 2016 Cyamonide.
+// ECOO 2016
+//
+
+#include <iostream>
+#include <string>
+#include <fstream>
+#include <vector>
+#include <stack>
+#include <deque>
+#include <algorithm>
+#include <utility>
+#include <map>
+#include <set>
+
+using namespace std;
+
+#define testFileLoc "C:/Users/cyamo/Desktop/DATA21.txt"
+
+int main() {
+	// file IO
+	ifstream input;
+	if (true) {
+		// cout << "Enter test file name/path" << endl;
+		// getline(cin, testFileLoc);
+		input.open(testFileLoc, ios::in);
+		if (!input.is_open()) { cout << "\n--- ERROR ---\n" << testFileLoc << " failed to open." << endl; return 0; }
+	}
+
+	vector<string> output;
+	
+	int num;
+	set<int> numbers;
+	vector<int> travNum;
+	vector<int> tests;
+
+	int temp;
+	double dtemp;
+
+	set<int> add;
+	set<int> mult;
+
+	string thisOutput;
+
+	bool good = false;
+
+	for (int testcase = 1; testcase <= 10; testcase++) {
+		add.clear();
+		mult.clear();
+		tests.clear();
+		travNum.clear();
+		numbers.clear();
+		good = false;
+		
+		input >> num;
+		for (int i = 1; i <= num; i++) {
+			input >> temp;
+			numbers.insert(temp);
+		}
+		for (int i = 1; i <= 5; i++) {
+			input >> temp;
+			tests.push_back(temp);
+		}
+
+		for (int q : numbers) {
+			travNum.push_back(q);
+		}
+
+		for (int i = 0; i < numbers.size(); i++) {
+			for (int h = i; h < numbers.size(); h++) {
+				add.insert(travNum[i] + travNum[h]);
+				mult.insert(travNum[i] * travNum[h]);
+			}
+		}
+
+		thisOutput = "";
+		for (int test : tests) {
+			// for each number to subtract
+			for (int sub : numbers) {
+				// temp num
+				temp = test;
+				temp -= sub;
+				// searches result in both add and multiply
+				for (int look : add) {
+					if (look == temp) { good = true; break; }
+				}
+				if (good) { break; }
+				for (int look : mult) {
+					if (look == temp) { good = true; break; }
+				}
+				if (good) { break; }
+
+				// temp num
+				dtemp = test;
+				dtemp /= sub;
+				// searches result in both add and multiply
+				for (int look : add) {
+					if (look == dtemp) { good = true; break; }
+				}
+				if (good) { break; }
+				for (int look : mult) {
+					if (look == dtemp) { good = true; break; }
+				}
+				if (good) { break; }
+			}
+			if (good) {
+				thisOutput += "T";
+			}
+			else {
+				thisOutput += "F";
+			}
+			// resets good
+			good = false;
+		}
+
+		output.push_back(thisOutput);
+	}
+
+	for (string e : output) {
+		cout << e << endl;
+	}
+
+	return 0;
+}

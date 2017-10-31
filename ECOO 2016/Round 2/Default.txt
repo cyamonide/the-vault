@@ -1,0 +1,44 @@
+//
+// (c) 2016 Cyamonide.
+// ECOO 2016
+//
+
+#include <iostream>
+#include <string>
+#include <fstream>
+#include <vector>
+
+using namespace std;
+
+vector<string> stov(string sentence) {
+	vector<string> output;
+	string temp = "";
+	for (char a : sentence) {
+		if (a == ' ') {
+			output.push_back(temp);
+			temp = "";
+		}
+		else {
+			temp += a;
+		}
+	}
+	output.push_back(temp);
+	return output;
+}
+
+#define testFileLoc "C:/Users/cyamo/Desktop/test.txt"
+
+int main() {
+	// file IO
+	ifstream input;
+	if (true) {
+		input.open(testFileLoc, ios::in);
+		if (!input.is_open()) { cout << "\n--- ERROR ---\n" << testFileLoc << " failed to open." << endl; return 0; }
+	}
+
+	for (int batch = 1; batch <= 10; batch++) {
+
+	}
+
+	return 0;
+}

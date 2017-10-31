@@ -1,0 +1,80 @@
+//
+// (c) 2016 Cyamonide.
+// ECOO 2016
+//
+
+#include <iostream>
+#include <string>
+#include <fstream>
+#include <vector>
+#include <stack>
+#include <deque>
+#include <algorithm>
+#include <utility>
+#include <map>
+
+using namespace std;
+
+#define testFileLoc "C:/Users/cyamo/Desktop/DATA32.txt"
+
+int main() {
+	// file IO
+	ifstream input;
+	if (true) {
+		// cout << "Enter test file name/path" << endl;
+		// getline(cin, testFileLoc);
+		input.open(testFileLoc, ios::in);
+		if (!input.is_open()) { cout << "\n--- ERROR ---\n" << testFileLoc << " failed to open." << endl; return 0; }
+	}
+
+	vector<int> output;
+	deque<int> unsorted;
+	int trains;
+	int temp;
+	int time;
+	int rem;
+	int lastLargest;
+
+	for (int testcase = 1; testcase <= 10; testcase++) {
+		unsorted.clear();
+		input >> trains;
+		for (int q = 1; q <= trains; q++) {
+			input >> temp;
+			unsorted.push_back(temp);
+		}
+		
+		for (int i = 0; i < trains; i++) {
+			if (unsorted[i] == trains) {
+				lastLargest = i;
+			}
+		}
+
+		rem = trains - 1;
+		time = 0;
+		while (rem > 0) {
+			// lookup
+			for (int i = 0; i < trains; i++) {
+				if (unsorted[i] == rem && i > lastLargest) {
+					time += i;
+					unsorted.erase(remove(unsorted.begin(), unsorted.end(), rem), unsorted.end());
+					unsorted.push_front(rem);
+					lastLargest = 0;
+					break;
+				}
+				else if (unsorted[i] == rem) {
+					lastLargest = i;
+					break;
+				}
+			}
+			rem--;
+		}
+
+		output.push_back(time);
+	}
+
+	for (int e : output) {
+		cout << e << endl;
+	}
+
+	return 0;
+}

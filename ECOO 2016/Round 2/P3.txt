@@ -1,0 +1,172 @@
+//
+// (c) 2016 Cyamonide.
+// ECOO 2016
+//
+
+#include <iostream>
+#include <string>
+#include <fstream>
+#include <vector>
+
+using namespace std;
+
+vector<string> stov(string sentence) {
+	vector<string> output;
+	string temp = "";
+	for (char a : sentence) {
+		if (a == ' ') {
+			output.push_back(temp);
+			temp = "";
+		}
+		else {
+			temp += a;
+		}
+	}
+	output.push_back(temp);
+	return output;
+}
+
+#define testFileLoc "C:/Users/cyamo/Desktop/DATA31.txt"
+
+int main() {
+	// file IO
+	ifstream input;
+	if (true) {
+		input.open(testFileLoc, ios::in);
+		if (!input.is_open()) { cout << "\n--- ERROR ---\n" << testFileLoc << " failed to open." << endl; return 0; }
+	}
+
+	for (int batch = 1; batch <= 10; batch++) {
+		// input
+		int boardSize;
+		int shipSize;
+		input >> boardSize;
+		input >> shipSize;
+		vector<string> board;
+		string stemp;
+		for (int i = 1; i <= boardSize; i++) {
+			input >> stemp;
+			board.push_back(stemp);
+		}
+
+		/*			scenario 1			*/
+		vector<string> board1 = board;
+		// fills in missing beside hs
+		for (int a = 0; a < boardSize; a++) {
+			for (int b = 0; b < boardSize; b++) {
+				if (board1[a][b] == 'h') {
+					// corners
+					if (a == 0 && b == boardSize - 1) {
+						if (board1[a][b - 1] == '.') { board1[a][b - 1] = 'm'; }
+						if (board1[a + 1][b - 1] == '.') { board1[a + 1][b - 1] = 'm'; }
+						if (board1[a + 1][b] == '.') { board1[a + 1][b] = 'm'; }
+					}
+					else if (a == 0 && b == 0) {
+						if (board1[a + 1][b] == '.') { board1[a + 1][b] = 'm'; }
+						if (board1[a + 1][b + 1] == '.') { board1[a + 1][b + 1] = 'm'; }
+						if (board1[a][b + 1] == '.') { board1[a][b + 1] = 'm'; }
+					}
+					else if (a == boardSize - 1 && b == boardSize - 1) {
+						if (board1[a][b - 1] == '.') { board1[a][b - 1] = 'm'; }
+						if (board1[a - 1][b - 1] == '.') { board1[a - 1][b - 1] = 'm'; }
+						if (board1[a - 1][b] == '.') { board1[a - 1][b] = 'm'; }
+					}
+					else if (a == boardSize - 1 && b == 0) {
+						if (board1[a][b + 1] == '.') { board1[a][b + 1] = 'm'; }
+						if (board1[a - 1][b + 1] == '.') { board1[a - 1][b + 1] = 'm'; }
+						if (board1[a - 1][b] == '.') { board1[a - 1][b] = 'm'; }
+					}
+					// edges
+					else if (a == 0) {
+						if (board1[a][b - 1] == '.') { board1[a][b - 1] = 'm'; }
+						if (board1[a + 1][b - 1] == '.') { board1[a + 1][b - 1] = 'm'; }
+						if (board1[a + 1][b] == '.') { board1[a + 1][b] = 'm'; }
+						if (board1[a + 1][b] == '.') { board1[a + 1][b] = 'm'; }
+						if (board1[a + 1][b + 1] == '.') { board1[a + 1][b + 1] = 'm'; }
+						if (board1[a][b + 1] == '.') { board1[a][b + 1] = 'm'; }
+					}
+					else if (a == boardSize - 1) {
+						if (board1[a][b - 1] == '.') { board1[a][b - 1] = 'm'; }
+						if (board1[a - 1][b - 1] == '.') { board1[a - 1][b - 1] = 'm'; }
+						if (board1[a - 1][b] == '.') { board1[a - 1][b] = 'm'; }
+						if (board1[a][b + 1] == '.') { board1[a][b + 1] = 'm'; }
+						if (board1[a - 1][b + 1] == '.') { board1[a - 1][b + 1] = 'm'; }
+						if (board1[a - 1][b] == '.') { board1[a - 1][b] = 'm'; }
+					}
+					else if (b == 0) {
+						if (board1[a + 1][b] == '.') { board1[a + 1][b] = 'm'; }
+						if (board1[a + 1][b + 1] == '.') { board1[a + 1][b + 1] = 'm'; }
+						if (board1[a][b + 1] == '.') { board1[a][b + 1] = 'm'; }
+						if (board1[a][b + 1] == '.') { board1[a][b + 1] = 'm'; }
+						if (board1[a - 1][b + 1] == '.') { board1[a - 1][b + 1] = 'm'; }
+						if (board1[a - 1][b] == '.') { board1[a - 1][b] = 'm'; }
+					}
+					else if (b == boardSize - 1) {
+						if (board1[a][b - 1] == '.') { board1[a][b - 1] = 'm'; }
+						if (board1[a + 1][b - 1] == '.') { board1[a + 1][b - 1] = 'm'; }
+						if (board1[a + 1][b] == '.') { board1[a + 1][b] = 'm'; }
+						if (board1[a][b - 1] == '.') { board1[a][b - 1] = 'm'; }
+						if (board1[a - 1][b - 1] == '.') { board1[a - 1][b - 1] = 'm'; }
+						if (board1[a - 1][b] == '.') { board1[a - 1][b] = 'm'; }
+					}
+					else {
+						if (board1[a + 1][b] == '.') { board1[a + 1][b] = 'm'; }
+						if (board1[a + 1][b + 1] == '.') { board1[a + 1][b + 1] = 'm'; }
+						if (board1[a][b + 1] == '.') { board1[a][b + 1] = 'm'; }
+						if (board1[a][b + 1] == '.') { board1[a][b + 1] = 'm'; }
+						if (board1[a - 1][b + 1] == '.') { board1[a - 1][b + 1] = 'm'; }
+						if (board1[a - 1][b] == '.') { board1[a - 1][b] = 'm'; }
+						if (board1[a][b - 1] == '.') { board1[a][b - 1] = 'm'; }
+						if (board1[a + 1][b - 1] == '.') { board1[a + 1][b - 1] = 'm'; }
+						if (board1[a + 1][b] == '.') { board1[a + 1][b] = 'm'; }
+						if (board1[a][b - 1] == '.') { board1[a][b - 1] = 'm'; }
+						if (board1[a - 1][b - 1] == '.') { board1[a - 1][b - 1] = 'm'; }
+						if (board1[a - 1][b] == '.') { board1[a - 1][b] = 'm'; }
+					}
+				}
+			}
+		}
+
+		int sum = 0;
+		bool foobar = true;
+
+		// horizontal
+		for (int a = 0; a < boardSize; a++) {
+			for (int b = 0; b < boardSize - shipSize + 1; b++) {
+				for (int q = 0; q <= shipSize - 1; q++) {
+					if (board1[a][b + q] != '.') {
+						foobar = false;
+						break;
+					}
+				}
+				if (foobar) {
+					sum++;
+				}
+				foobar = true;
+			}
+		}
+
+		for (int a = 0; a < boardSize - shipSize + 1; a++) {
+			for (int b = 0; b < boardSize; b++) {
+				for (int q = 0; q <= shipSize - 1; q++) {
+					if (board1[a + q][b] != '.') {
+						foobar = false;
+						break;
+					}
+				}
+				if (foobar) {
+					sum++;
+				}
+				foobar = true;
+			}
+		}
+
+		cout << sum << endl;
+
+		/*		scenario 2		*/
+
+
+	}
+
+	return 0;
+}

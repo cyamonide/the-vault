@@ -1,0 +1,55 @@
+//
+// (c) 2016 Cyamonide.
+// ECOO 2016
+//
+
+#include <iostream>
+#include <string>
+#include <fstream>
+#include <vector>
+
+using namespace std;
+
+#define testFileLoc "C:/Users/cyamo/Desktop/DATA11.txt"
+
+int main() {
+	// file IO
+	ifstream input;
+	if (true) {
+		// cout << "Enter test file name/path" << endl;
+		// getline(cin, testFileLoc);
+		input.open(testFileLoc, ios::in);
+		if (!input.is_open()) { cout << "\n--- ERROR ---\n" << testFileLoc << " failed to open." << endl; return 0; }
+	}
+
+	int aw, bw, cw, dw;
+	int a, b, c, d;
+	int students;
+	int passing;
+	vector<int> output;
+
+	for (int testcase = 1; testcase <= 10; testcase++) {
+		input >> aw;
+		input >> bw;
+		input >> cw;
+		input >> dw;
+		passing = 0;
+		input >> students;
+		for (int q = 1; q <= students; q++) {
+			input >> a;
+			input >> b;
+			input >> c;
+			input >> d;
+			if ((a*aw + b*bw + c*cw + d*dw) / 100 >= 50) {
+				passing++;
+			}
+		}
+		output.push_back(passing);
+	}
+
+	for (int w : output) {
+		cout << w << endl;
+	}
+
+	return 0;
+}
