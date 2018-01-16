@@ -19,6 +19,7 @@ int depth = 1;
 int stat = 0;
 
 void dfs(int n) {
+    cout << "root:" << n << endl;
     // cout << n << endl;
     // cout << "-" << working[n] << endl;
     // if in working set
@@ -29,8 +30,8 @@ void dfs(int n) {
 
     if (visited[n]) {
         return;
-    }
 
+    }
     // mark as visited and part of working set
     visited[n] = true;
     working[n] = depth;
