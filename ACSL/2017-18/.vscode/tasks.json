@@ -8,7 +8,8 @@
             "type": "shell",
             "command": "g++",
             "args": [
-                "-g", "2-ACSL-Enclosure.cpp"
+                "-g",
+                "2-ACSL-Enclosure.cpp"
             ],
             "group": {
                 "kind": "build",
@@ -20,8 +21,10 @@
             "type": "shell",
             "command": "./a.exe",
             "group": {
-                "isDefault" : true
-            }
+                "kind": "test",
+                "isDefault": true
+            },
+            "problemMatcher": []
         }
     ]
 }

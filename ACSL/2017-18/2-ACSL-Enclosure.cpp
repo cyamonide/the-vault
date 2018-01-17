@@ -35,7 +35,24 @@ char complement(char a) {
         case ')':
             return '(';
         default:
-            return ' ';
+            return a;
+    }
+}
+
+/*
+returns whether this character is a bracket or not
+*/
+bool isBracket(char a) {
+    switch (a) {
+        case '{':
+        case '}':
+        case '[':
+        case ']':
+        case '(':
+        case ')':
+            return true;
+        default:
+            return false;
     }
 }
 
@@ -125,55 +142,91 @@ int main() {
         }
 
         // set of all indices to consider for insertion
-        set<int> validIndices;
+        vector<int> validIndices;
+        validIndices.clear();
+        for (int i = 0; i <= sinput.length(); i++) validIndices.push_back(0);
         int exclusion = 0;
+
+        // DEBUG
+        cout << mainloop << ":" << endl;
+        // DEBUG END
 
         // rightward search
         if (dir(root.first)) {
-            for (int i = root.second + 1; i < sinput.length(); i++) {
+            // look for single integer enclosure
+            int firstNonIntIndex = root.second + 1;
+            if (sinput[root.second + 1] == 'i') {
+                for (int i = root.second+1; i < sinput.length(); i++) {
+                    if (sinput[i] != 'i') {
+                        firstNonIntIndex = i+1;
+                        break;
+                    }
+                }
+            }
+
+            for (int i = firstNonIntIndex; i < sinput.length(); i++) {
                 // update exclusion period
-                if (sinput[i] != 'o' && sinput[i] != 'i') {
+                if (isBracket(sinput[i])) {
                     if (dir(sinput[i])) {
                         exclusion++;
                     } else {
                         exclusion--;
+                        // if exclusion was just decremented to zero, pass this one
+                        if (exclusion == 0) continue;
+                        
+                        // if not in a current exclusion period and a matched close bracket is scanned
+                        else if (exclusion < 0) {
+                            validIndices[i] = true;
+                            break;
+                        }
                     }
-
-                    // if exclusion was just decremented to zero, pass this one
-                    if (exclusion == 0) continue;
                 }
 
                 // if not in a current exclusion period
                 if (exclusion == 0) {
-                    validIndices.insert(i);
+                    validIndices[i] = true;
                 }
 
+                // if end case
+                if (i == sinput.length() -1) {
+                    validIndices[i+1] = true;
+                }
             }
+
+            // DEBUG SHOW VALID INDICES
+            sinput = sinput + '_';
+            cout << sinput << endl;
+            for (int i = 0; i <= sinput.length(); i++) {
+                if (validIndices[i]) cout << sinput[i];
+                else cout << " ";
+            }
+            cout << endl;
+            // DEBUG END
+
+            // find valid indices
+            for (int i = 0; i < sinput.length(); i++) {
+                // if not a valid index
+                if (!validIndices[i]) continue;
+
+                // if surrounded by integers
+                try {
+                    if (sinput[i-1] == 'i' && sinput[i] == 'i') continue;
+                } catch (...) { }
+
+                // if operator on left
+                if (sinput[i-1] == 'o') continue;
+
+                // if {}
+                if (sinput[i-1] == complement(root.first)) continue;
+
+                cout << i+1 << ",";
+            } cout << endl;
         }
         // leftward search
         /*
         DEBUG: THIS SECTION ONWARDS DOES NOT WORK AND NEEDS RETHINKING
         */
         else {
-            for (int i = root.second + 1; i >= 0; i--) {
-                // update exclusion period
-                if (sinput[i] != 'o' && sinput[i] != 'i') {
-                    if (dir(sinput[i])) {
-                        exclusion++;
-                    } else {
-                        exclusion--;
-                    }
-
-                    // if exclusion was just decremented to zero, pass this one
-                    if (exclusion == 0) continue;
-                }
-
-                // if not in a current exclusion period
-                if (exclusion == 0) {
-                    validIndices.insert(i);
-                }
-
-            }
         }
 
     }
