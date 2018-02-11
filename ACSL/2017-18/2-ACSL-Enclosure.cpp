@@ -3,6 +3,7 @@
 #include <fstream>
 #include <map>
 #include <set>
+#include <deque>
 
 using namespace std;
 
@@ -58,9 +59,19 @@ bool isBracket(char a) {
 
 int main() {
     ifstream fin;
-    fin.open("2-ACSL-Enclosure.in");
+    fin.open("sr-test.txt");
+
+    ofstream fout;
+    fout.open("sr-out.txt");
 
     string sinput;
+
+    map<char, int> bracePriority;
+    bracePriority['{'] = 3;    bracePriority['}'] = 3;
+    bracePriority['['] = 2;
+    bracePriority[']'] = 2;
+    bracePriority['('] = 1;
+    bracePriority[')'] = 1;
 
     // main loop
     for (int mainloop = 1; mainloop <= 5; mainloop++) {
@@ -115,7 +126,7 @@ int main() {
         exists['('] = false;
         exists[')'] = false;
 
-        for (int i = 0; i < sinput.length(); i++) {            
+        for (int i = 0; i < sinput.length(); i++) {
             // update exists map
             exists[sinput[i]] = true;
         }
@@ -133,101 +144,121 @@ int main() {
             else missing = '(';
         }
 
-        // find index and character of root bracket
-        pair<char, int> root;
-        for (int i = 0; i < sinput.length(); i++) {
-            if (sinput[i] == complement(missing)) {
-                root = make_pair(complement(missing), i); // <bracket, index>
-            }
-        }
-
         // set of all indices to consider for insertion
         vector<int> validIndices;
         validIndices.clear();
         for (int i = 0; i <= sinput.length(); i++) validIndices.push_back(0);
-        int exclusion = 0;
 
         // DEBUG
-        cout << mainloop << ":" << endl;
+        // cout << mainloop << ":" << endl;
         // DEBUG END
 
-        // rightward search
-        if (dir(root.first)) {
-            // look for single integer enclosure
-            int firstNonIntIndex = root.second + 1;
-            if (sinput[root.second + 1] == 'i') {
-                for (int i = root.second+1; i < sinput.length(); i++) {
-                    if (sinput[i] != 'i') {
-                        firstNonIntIndex = i+1;
-                        break;
-                    }
+        for (int i = 0; i < sinput.length(); i++) {
+            try {
+                if (sinput[i-1] == 'i' && sinput[i] == 'i') continue;
+            } catch (...) { }
+
+            if (dir(missing)) { // right opening missing bracket
+                // check if first case
+                if (i == 0) {
+                    validIndices[i] == true;
+                    continue;
                 }
+                // check if its before an operator
+                if (sinput[i] == 'o') continue;
+            } else { // left opening missing bracket
+                // check if it's going after an operator
+                if (sinput[i-1] == 'o') continue;
             }
 
-            for (int i = firstNonIntIndex; i < sinput.length(); i++) {
-                // update exclusion period
-                if (isBracket(sinput[i])) {
-                    if (dir(sinput[i])) {
-                        exclusion++;
-                    } else {
-                        exclusion--;
-                        // if exclusion was just decremented to zero, pass this one
-                        if (exclusion == 0) continue;
-                        
-                        // if not in a current exclusion period and a matched close bracket is scanned
-                        else if (exclusion < 0) {
-                            validIndices[i] = true;
+            validIndices[i] = true;
+        }
+
+        validIndices[sinput.length()] = true;
+
+        // DEBUG display valid indices pass 1
+        /*
+        cout << sinput << endl;
+        for (int i = 0; i < sinput.length(); i++) {
+            if (validIndices[i]) cout << sinput[i];
+            else cout << " ";
+        } cout << endl;
+        */
+
+        for (int i = 0; i <= sinput.length(); i++) {
+            // if not valid, continue
+            if (!validIndices[i]) continue;
+
+            // create new temp string
+            string stest = sinput.substr(0, i) + missing + sinput.substr(i);
+            // cout << stest << endl;
+
+            // check for brace matching
+            deque<char> bracketTracking;
+            for (int j = 0; j <= sinput.length(); j++) {
+                // cout << j << endl;
+                // see if it's a bracket
+                if (isBracket(stest[j])) {
+                    // opening bracket, insert into deque
+                    if (dir(stest[j])) {
+                        if (bracketTracking.size() != 0 && bracePriority[stest[j]] > bracePriority[bracketTracking.back()]) {
+                            validIndices[i] = false;
+                            break;
+                        }
+                        bracketTracking.push_back(stest[j]);
+                    }
+                    // close bracket, must match top of deque
+                    if (!dir(stest[j])) {
+                        try {
+                            if (bracketTracking.size() != 0 && complement(stest[j]) == bracketTracking.back()) {
+                                validIndices[i] = true;
+                                bracketTracking.pop_back();
+                                continue;
+                            } else {
+                                validIndices[i] = false;
+                                break;
+                            }
+                        } catch ( ... ) {
+                            validIndices[i] = false;
                             break;
                         }
                     }
                 }
-
-                // if not in a current exclusion period
-                if (exclusion == 0) {
-                    validIndices[i] = true;
-                }
-
-                // if end case
-                if (i == sinput.length() -1) {
-                    validIndices[i+1] = true;
-                }
             }
 
-            // DEBUG SHOW VALID INDICES
-            sinput = sinput + '_';
-            cout << sinput << endl;
-            for (int i = 0; i <= sinput.length(); i++) {
-                if (validIndices[i]) cout << sinput[i];
-                else cout << " ";
+            // check if validIndices has been updated
+            if (!validIndices[i]) continue;
+
+            // check for lone integers
+            for (int j = 0; j <= sinput.length(); j++) {
+                if (stest[j] == missing || stest[j] == complement(missing)) { // if missing bracket
+                    // search for matching bracket
+                    for (int k = j+1; k <= sinput.length(); k++) {
+                        if (stest[k] == 'o') break;
+                        else if (stest[k] == missing || stest[k] == complement(missing)) {
+                            validIndices[i] = false;
+                            break;
+                        }
+                    }
+                    break;
+                }
             }
-            cout << endl;
-            // DEBUG END
-
-            // find valid indices
-            for (int i = 0; i < sinput.length(); i++) {
-                // if not a valid index
-                if (!validIndices[i]) continue;
-
-                // if surrounded by integers
-                try {
-                    if (sinput[i-1] == 'i' && sinput[i] == 'i') continue;
-                } catch (...) { }
-
-                // if operator on left
-                if (sinput[i-1] == 'o') continue;
-
-                // if {}
-                if (sinput[i-1] == complement(root.first)) continue;
-
-                cout << i+1 << ",";
-            } cout << endl;
         }
-        // leftward search
-        /*
-        DEBUG: THIS SECTION ONWARDS DOES NOT WORK AND NEEDS RETHINKING
-        */
-        else {
-        }
+
+        // print good indices
+        for (int i = 0; i <= sinput.length(); i++) {
+            if (validIndices[i]) {
+                cout << i + 1;
+                fout << i + 1;
+                i++;
+                for (; i <= sinput.length(); i++) {
+                    if (validIndices[i]) {
+                        cout << ", " << i + 1;
+                        fout << ", " << i + 1;
+                    }
+                }
+            }
+        } cout << endl; fout << endl;
 
     }
 
