@@ -1,0 +1,38 @@
+4 5
+WWWWW
+W.W.W
+WWS.W
+WWWWW
+
+5 10
+WWWWWWWWWW
+WD..LLL.RW
+W..CU....W
+WWW.S....W
+WWWWWWWWWW
+
+ else if (id == ccam) {
+        // do nothing, not a valid move
+        // cout << "cam" << endl;
+    } else if (id == cL) {
+        // conveyor belt does not increment step, but it moves the robot in that direction
+        // cout << "leftBelt" << endl;
+        thisLen--;
+        moveLeft(thisNode);
+        thisLen++;
+    } else if (id == cU) {
+        // cout << "upBelt" << endl;
+        thisLen--;
+        moveUp(thisNode);
+        thisLen++;
+    } else if (id == cR) {
+        // cout << "rightBelt" << endl;
+        thisLen--;
+        moveRight(thisNode);
+        thisLen++;
+    } else if (id == cD) {
+        // cout << "downBelt" << endl;
+        thisLen--;
+        moveDown(thisNode);
+        thisLen++;
+    }

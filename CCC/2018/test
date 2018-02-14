@@ -1,0 +1,100 @@
+5
+16
+-1000000000
+-999999999
+-999999998
+4
+
+
+
+5
+16
+0
+10
+4
+15
+
+5
+16
+0
+10
+15
+20
+
+#include <iostream>
+#include <vector>
+#include <deque>
+#include <set>
+#include <map>
+#include <algorithm>
+
+#define F first
+#define S second
+#define PB push_back
+#define MP make_pair
+
+#define REP(i,a,b) for (int i = a; i <= b; i++)
+
+typedef long long ll;
+
+using namespace std;
+
+struct Foobar {
+    int foobat = 0;
+};
+
+int main() {
+    int N;
+    cin >> N;
+
+    vector<ll> road;
+    ll itemp;
+
+    REP(i, 1, N) {
+        cin >> itemp;
+        // cout << itemp << " " << itemp + 1000000001 << endl;
+        road.PB(itemp);
+    }
+
+    sort(road.begin(), road.end());
+
+    cout << "vector" << endl;
+    for (ll i : road) {
+        cout << i << endl;
+    }
+    cout << "vector" << endl;
+
+    // parse distances between villages
+    
+    double distance;
+    double lastDistance = 2000000001;
+    double minDistance = 2000000001;
+
+    REP(i, 1, N+1) {
+        // take distance between villages
+        try {
+            distance = road[i] - road[i-1];
+            cout << distance << endl;
+            distance = distance/2.0;
+            cout << distance << endl;
+        } catch ( ... ) {
+            break;
+        }
+
+        if (lastDistance + distance < minDistance) {
+            minDistance = lastDistance + distance;
+        }
+        
+        cout << lastDistance << " " << distance << " " << lastDistance + distance << endl;
+
+        lastDistance = distance;
+    }
+
+    if (static_cast<int>(minDistance) == minDistance) {
+        cout << minDistance << ".0" << endl;
+    } else {
+        cout << minDistance << endl;
+    }
+
+    return 0;
+}
