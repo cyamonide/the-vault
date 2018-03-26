@@ -1,0 +1,8 @@
+# depslib dependency file v1.0
+1521868006 source:c:\users\cyamo\documents\github\the-vault\ecoo 2018\practice\ecoo15r1p2\main.cpp
+	<iostream>
+	<vector>
+	<fstream>
+	<sstream>
+	<string>
+
