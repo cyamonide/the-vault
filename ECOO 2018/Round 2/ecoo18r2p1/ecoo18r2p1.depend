@@ -1,0 +1,14 @@
+# depslib dependency file v1.0
+1524933119 source:c:\users\cyamo\documents\github\the-vault\ecoo 2018\round 2\ecoo18r2p1\main.cpp
+	<iostream>
+	<fstream>
+	<string>
+	<vector>
+	<deque>
+	<queue>
+	<set>
+	<map>
+	<algorithm>
+	<iomanip>
+	<stdio.h>
+
