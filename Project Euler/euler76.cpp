@@ -28,7 +28,6 @@ int main() {
 	
 	for (int i = 1; i <= 99; i++) {
 		for (int j = 1; j <= i && j <= 100-i; j++) {
-			// cout << i << " " << j << endl;
 			add(i, j);
 		}
 	}
