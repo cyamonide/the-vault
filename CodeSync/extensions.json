@@ -1,0 +1,10 @@
+{
+    "extensions": [
+        "James-Yu.latex-workshop",
+        "golf1052.code-sync",
+        "ms-vscode.cpptools",
+        "streetsidesoftware.code-spell-checker",
+        "yzane.markdown-pdf",
+        "yzhang.markdown-all-in-one"
+    ]
+}

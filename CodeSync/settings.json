@@ -1,0 +1,56 @@
+{
+    "latex-workshop.latex.toolchain": [
+        {
+            "command": "pdflatex",
+            "args": [
+                "-synctex=1",
+                "-interaction=nonstopmode",
+                "-file-line-error",
+                "%DOC%"
+            ]
+        },
+        {
+            "command": "bibtex",
+            "args": [
+                "%DOCFILE%"
+            ]
+        },
+        {
+            "command": "pdflatex",
+            "args": [
+                "-synctex=1",
+                "-interaction=nonstopmode",
+                "-file-line-error",
+                "%DOC%"
+            ]
+        },
+        {
+            "command": "pdflatex",
+            "args": [
+                "-synctex=1",
+                "-interaction=nonstopmode",
+                "-file-line-error",
+                "%DOC%"
+            ]
+        }
+    ],
+    "window.restoreWindows": "none",
+    "editor.wordWrap": "on",
+    "cSpell.language": "en",
+    "explorer.confirmDelete": false,
+    "window.zoomLevel": 0,
+    "telemetry.enableTelemetry": false,
+    // Git Bash
+    "terminal.integrated.shell.windows": "C:\\Program Files\\Git\\bin\\bash.exe",
+    "editor.renderWhitespace": "all",
+    // space tabs
+    "editor.insertSpaces": false,
+    "editor.detectIndentation": false,
+    // fira code
+    "editor.fontFamily": "Fira Code",
+    "editor.fontLigatures": true,
+    "editor.fontSize": 14,
+    "cSpell.userWords": [
+        "stoi"
+    ]
+}

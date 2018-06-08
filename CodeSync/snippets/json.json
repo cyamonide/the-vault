@@ -1,0 +1,44 @@
+{
+	// Place your snippets for json here. Each snippet is defined under a snippet name and has a prefix, body and 
+	// description. The prefix is what is used to trigger the snippet and the body will be expanded and inserted. Possible variables are:
+	// $1, $2 for tab stops, $0 for the final cursor position, and ${1:label}, ${2:another} for placeholders. Placeholders with the 
+	// same ids are connected.
+	// Example:
+	// "Print to console": {
+	// 	"prefix": "log",
+	// 	"body": [
+	// 		"console.log('$1');",
+	// 		"$2"
+	// 	],
+	// 	"description": "Log output to console"
+	// }
+	"c_cpp_properties.json file for MinGW": {
+		"prefix": "cpp_properties",
+		"body": [
+			"{",
+			"\t\"configurations\": [",
+			"\t\t{",
+			"\t\t\t\"name\": \"Win32\",",
+			"\t\t\t\"includePath\": [",
+			"\t\t\t\t\"${workspaceFolder}\"",
+			"\t\t\t],",
+			"\t\t\t\"defines\": [",
+			"\t\t\t\t\"_DEBUG\",",
+			"\t\t\t\t\"UNICODE\"",
+			"\t\t\t],",
+			"\t\t\t\"compilerPath\": \"C:/MinGW/bin/gcc.exe\",",
+			"\t\t\t\"intelliSenseMode\": \"clang-x64\",",
+			"\t\t\t\"browse\": {",
+			"\t\t\t\"path\": [",
+			"\t\t\t\t\t\"${workspaceFolder}\"",
+			"\t\t\t\t],",
+			"\t\t\t\t\"limitSymbolsToIncludedHeaders\": true,",
+			"\t\t\t\t\"databaseFilename\": \"\"",
+			"\t\t\t}",
+			"\t\t}",
+			"\t],",
+			"\t\"version\": 4",
+			"}"
+		]
+	}
+}
