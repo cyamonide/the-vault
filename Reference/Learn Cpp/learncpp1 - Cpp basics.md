@@ -89,9 +89,117 @@ When you #include a file, the entire content of the included file is inserted at
 
 <hr>
 
+### Header file rules
+
 Use \<angle brackets\> to include header files that are in _system directories_.  
 "Quotes" are for header files we supply.
 
 If the header file isn't found in the project directory, the compiler will begin looking in other include paths and finally default to system directories.
 
 Each .cpp file should explicitly #include all of the header files it needs to compile. In other words, don't use `#include <bits/stdc++.h>`.
+
+Use the non `.h` version of a header file if it exists, and access the functionality through the `std` namespace. If not, or you are creating your own headers, use the `.h` version.
+
+<hr>
+
+To include header files from other directories, tell the compiler or IDE where to look for those files. This can be done by setting an include path.
+
+Using `g++`, you can use the `-I` option to specify an alternate include directory.
+
+```
+$ g++ -o main -I /source/includes main.cpp
+```
+
+## 1.10 - A first look at the preprocessor
+
+A __preprocessor__ is essentially a separate program that runs just before the compiler. It scans the code and looks for __directives__, which are specific instructions that start with `#` and end in a newline `\n`. 
+
+<hr>
+
+### Includes
+
+When you `#include` a file, the preprocessor copies the entire contents of the file at the point of the #include statement.
+
+`#include <filename>` tells the preprocessor to look in system directories.  
+`#include "filename"` tells the preprocessor to look in the project directory. It will then look in system directories upon failing.
+
+### Macro defines
+
+The `#define` directive can be used to create a macro.
+
+There are two basic types of macros: __object-like macros__ and __function-like macros__. The latter is very dangerous and shall not be mentioned.
+
+Object-like macros can be defined in two ways:
+```c++
+#define identifier
+#define identifier substitution_text
+```
+
+With substitution text, any further occurrence of `identifier` is replaced by `substitution_text`. Without substitution text, `identifier` is replaced by nothing.
+
+Read more about these in section _2.9 - Const, constexpr, and symbolic constants_
+
+_Note: macros only cause substitution in normal code, and not other directives._
+
+### Conditional compilation
+
+The three directives covered in this section are `#ifdef`, `#ifndef`, and `#endif`.
+
+### The scope of defines
+
+Directives are only valid from the point of definition to the end of the file in which they are defined. Directives in one code file do not have an impact on other files.
+
+## 1.10a - Header guards
+
+Header guards prevent duplicate definitions, which cause compilation errors.
+
+```c++
+#ifndef SOME_UNIQUE_NAME_HERE
+#define SOME_UNIQUE_NAME_HERE
+
+// declarations and definitions here
+
+#endif
+```
+
+By convention, `SOME_UNIQUE_NAME_HERE` is the name of the file.
+
+`math.h:`
+```c++
+#ifndef MATH_H
+#define MATH_H
+
+// stuff
+
+#endif
+```
+
+<hr>
+
+### Side note - Difference between declaration and definition
+
+__Declaration__ Tells compiler about type, size, and in case of function declaration, the type and size of its parameters.  
+__Definition__ is declaration + space reservation.
+
+```c++
+// examples of declarations
+extern int a;
+struct _tagExample { int a; int b; };
+int myFunc (int a, int b);
+
+// examples of definitions
+int a;
+int b = 0;
+int myFunc (int a, int b) { return a + b; }
+struct _tagExample example;
+```
+
+[Source](https://www.tutorialspoint.com/What-is-the-difference-between-a-definition-and-a-declaration-in-Cplusplus)
+
+<hr>
+
+### #pragma once
+`#pragma once` serves the same purpose as header guards, and has the added benefit of being shorter and less error-prone.
+
+This is not an official part of the C++ language, though most modern compilers support it. For compatibility purposes, don't use it.
+
