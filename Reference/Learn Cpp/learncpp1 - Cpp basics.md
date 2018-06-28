@@ -203,3 +203,6 @@ struct _tagExample example;
 
 This is not an official part of the C++ language, though most modern compilers support it. For compatibility purposes, don't use it.
 
+## 1.11 - Debugging your program (stepping and breakpoints)
+
+__Semantic errors__ occur when a statement is syntactically valid, but does not do what the programmer intended.
