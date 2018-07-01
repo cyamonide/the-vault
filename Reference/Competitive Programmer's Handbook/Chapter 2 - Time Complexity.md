@@ -121,3 +121,47 @@ n <= 500    O(n^3)
 n <= 5000   O(n^2)
 n <= 10^6   O(n log n) or O(n)
 n is large  O(1) or O(log n)
+```
+
+## 2.4 Maximum subarray sum
+
+Given an array of $n$ numbers, calculate the maximum subarray sum (i.e. the largest possible sum of a sequence of consecutive values in the array).
+
+__Algorithm 1__
+
+Go through all possible subarrays.
+```c++
+for (firstIndex = 0; firstIndex < n; firstIndex++) {
+	for (secondIndex = firstIndex; secondIndex < n; secondIndex++) {
+		// sum values from first index to second (another for loop)
+		// compare to best subarray sum thus far
+	}
+}
+```
+The time complexity of this algorithm is $O(n^3)$.
+
+__Algorithm 2__
+
+This is an optimization of the first one. See reference.
+
+__Algorithm 3__
+
+This problem is solvable in $O(n)$ time.
+
+Consider the problem of finding the max-sum subarray that ends at position $k$. There are two possibilities:
+1. The subarray only contains the element at position $k$
+2. The subarray contains of some subarray that ends at $k-1$, followed by the element at $k$
+
+The solution is the best out of these two possibilities as we iterate k over the elements of the array.
+
+```c++
+int best = 0; // this is the best answer thus far
+int sum = 0; // this is the max sum terminating at k-1
+
+for (int k = 0; k < n; k++) { // iterate our index k from 0 to n
+	// find max sum terminating at k
+	sum = max(array[k], sum+array[k]);
+	// update best
+	best = max(best, sum);
+}
+```

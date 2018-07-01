@@ -20,8 +20,6 @@ In Windows, you need to statically link to a library called OpenGL32.lib (the 32
 
 
 
-
-
 <hr>
 
 * CUDA
