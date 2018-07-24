@@ -1,0 +1,5 @@
+# depslib dependency file v1.0
+1530688648 source:c:\users\cyamo\documents\github\the-vault\dmoj\ddr\ddr4\main.cpp
+	<iostream>
+	<string>
+
