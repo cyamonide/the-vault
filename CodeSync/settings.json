@@ -53,5 +53,6 @@
     "editor.fontSize": 14,
     "cSpell.userWords": [
         "stoi"
-    ]
+    ],
+    "editor.tabSize": 2
 }
