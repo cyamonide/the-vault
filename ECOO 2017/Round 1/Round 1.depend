@@ -1,0 +1,27 @@
+# depslib dependency file v1.0
+1491022584 source:/home/cyamonide/Round 1/CB/Round 1/P1.cpp
+	<iostream>
+	<fstream>
+	<string>
+
+1491023423 source:/home/cyamonide/Round 1/P1.cpp
+	<iostream>
+	<fstream>
+	<string>
+
+1491023584 source:/home/cyamonide/Round 1/P2.cpp
+	<iostream>
+	<fstream>
+	<string>
+
+1491023644 source:/media/cyamonide/ECOO 2017/Round 1/main.cpp
+	<iostream>
+	<fstream>
+	<string>
+
+1491060919 source:/home/cyamonide/Documents/Round 1/main.cpp
+	<iostream>
+	<fstream>
+	<vector>
+	<string>
+
