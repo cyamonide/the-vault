@@ -1,6 +1,7 @@
 {
     "extensions": [
         "golf1052.code-sync",
+        "HookyQR.beautify",
         "James-Yu.latex-workshop",
         "kriegalex.vscode-cudacpp",
         "ms-python.python",
