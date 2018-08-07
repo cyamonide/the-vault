@@ -2,6 +2,7 @@
     "extensions": [
         "golf1052.code-sync",
         "James-Yu.latex-workshop",
+        "kriegalex.vscode-cudacpp",
         "ms-python.python",
         "ms-vscode.cpptools",
         "redhat.java",
