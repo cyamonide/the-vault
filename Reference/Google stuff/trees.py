@@ -51,23 +51,36 @@ def get_token(token_list, expected):
 
 # Returns tree with cargo of number and pops element if first on list is a number
 def get_number(token_list):
-	x = token_list[0]
-	if type(x) != type(0): return None
-	del token_list[0]
-	return Tree(x, None, None)
+	if get_token(token_list, "("):
+		x = get_sum(token_list)
+		if not get_token(token_list, ")"):
+			raise ValueError("Missing close parenthesis")
+		return x
+	else:
+		x = token_list[0]
+		if type(x) != type(0): return None
+		del token_list[0]
+		return Tree(x, None, None)
 
 # Builds expression tree for products
 def get_product(token_list):
 	a = get_number(token_list)
 	if get_token(token_list, "*"):
-		b = get_number(token_list)
+		b = get_product(token_list)
 		return Tree("*", a, b)
+	return a
+
+def get_sum(token_list):
+	a = get_product(token_list)
+	if (get_token(token_list, "+")):
+		b = get_sum(token_list)
+		return Tree("+", a, b)
 	return a
 
 # create expression tree for 1 + 2 * 3
 tree = Tree("+", Tree(1), Tree("*", Tree(2), Tree(3)))
 
-token_list = [9, "*", 11, "end"]
-tree = get_product(token_list)
+token_list = [9, "*", "(", 11, "+", 5, "*", 7, "end"]
+tree = get_sum(token_list)
 print_tree_postorder(tree)
-
+print()
