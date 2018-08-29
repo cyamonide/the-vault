@@ -54,5 +54,8 @@
     "cSpell.userWords": [
         "stoi"
     ],
-    "editor.tabSize": 2
+    "editor.tabSize": 2,
+    "editor.rulers": [
+        80
+    ]
 }
