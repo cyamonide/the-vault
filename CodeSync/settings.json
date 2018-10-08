@@ -57,5 +57,10 @@
     "editor.tabSize": 2,
     "editor.rulers": [
         80
-    ]
+    ],
+    "latex-workshop.view.pdf.viewer": "browser",
+    "explorer.confirmDragAndDrop": false,
+    "workbench.colorTheme": "FlatUI Dark",
+    "markdown-pdf.format": "Letter",
+    "latex-workshop.message.update.show": false
 }

@@ -4,10 +4,16 @@
         "HookyQR.beautify",
         "James-Yu.latex-workshop",
         "kriegalex.vscode-cudacpp",
+        "lkytal.FlatUI",
         "ms-python.python",
         "ms-vscode.cpptools",
         "redhat.java",
+        "sjhuangx.vscode-scheme",
         "streetsidesoftware.code-spell-checker",
+        "vscjava.vscode-java-debug",
+        "vscjava.vscode-java-pack",
+        "vscjava.vscode-java-test",
+        "vscjava.vscode-maven",
         "yzane.markdown-pdf",
         "yzhang.markdown-all-in-one"
     ]
