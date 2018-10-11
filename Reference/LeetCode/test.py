@@ -1,83 +1,136 @@
-from heapq import *
+class Node:
+	def __init__(self, data):
+		self.direct_children = []
+		self.children_dist = {}
+		self.data = -1
 
-nums = [1, 6, 2, 3, 7, 1, 8, 3, 6, 8, 4, 6, 3, 4, 5, 1, 4]
-k = len(nums) # k is 7
+class Solution(object):
 
-k_even = k%2==0
+    def sumOfDistancesInTree(self, N, edges):
+        """
+        :type N: int
+        :type edges: List[List[int]]
+        :rtype: List[int]
+        """
 
-lo = sorted(nums)
+        # optimized hashing shortest path solution
 
-if k_even:
-    hi = lo[k//2:]
-    lo = lo[:k//2]
-else:
-    hi = lo[k//2+1:]
-    lo = lo[:k//2+1]
+        # BFS but once reached n<root, end search for 
+        #  that node and set all of its children to visited
 
-# change all values in lo to negative to implement max heap
-lo = list(map((lambda x : -x), lo))
+		adj = [[] for _ in xrange(N)]
 
-map((lambda x : heapify(x)), [hi, lo])
+		# array containing shortest path hashes
+		sp = []
+		# {'sum', 'adj (to be or'd)', 'count of children'}
 
-print lo, hi
+        for p in edges:
+        	adj[p[0]].append(p[1])
+        	adj[p[1]].append(p[0])
 
-invalid = []
+        dists = []
 
-meds = []
+        for root in xrange(N):
 
-# compute first median
-if k_even:
-    meds.append((hi[0]-lo[0])/2.0)
-else:
-    meds.append(lo[0])
+        	visited = [0]*N
+        	visited[root] = 1
+        	dist_sum = 0
+        	dist_current = 0
 
-balance = 0
+        	q = []
+        	for a in adj[root]:
+        		q.append(a)
 
-# get invalids
-for j in range(k, len(nums)):
-    # add new value to invalid
-    if nums[k-j] in lo:
-        balance -= 1
-    else:
-        balance += 1
-    invalid.append(nums[k-j]):
+        	while q:
+        		# increment distance
+        		dist_current += 1
 
-    new = nums[j]
+        		size = len(q)
+        		for _ in xrange(size):
+        			if q[0] < root:
+        				# map already exists
 
-    if new >= hi[0]:
-        heappush(hi, new)
-        balance -= 1
-    else:
-        heappush(lo, -new)
-        balance += 1
-
-    while balance > 0:
-        while -lo[0] in invalid:
-            invalid.remove(-heappop(lo))
-        while hi[0] in invalid:
-            invalid.remove(heappop(hi))
-
-        heappush(hi, -heappop(lo))
-        balance -= 1
-
-    while balance < 0:
-        while -lo[0] in invalid:
-            invalid.remove(-heappop(lo))
-        while hi[0] in invalid:
-            invalid.remove(heappop(hi))
-
-        heappush(lo, -heappop(hi))
-        balance += 1
-
-    if k_even:
-        meds.append((hi[0]-lo[0])/2.0)
-    else:
-        meds.append(lo[0])
+        				adj &= sp[q[0]]['adj']
 
 
-while -lo[0] in invalid:
-    invalid.remove(-heappop(lo))
-while hi[0] in invalid:
-    invalid.remove(heappop(hi))
+        			if visited[q[0]]:
+        				q.pop(0)
+        				continue
+        			else:
+        				dist_sum += dist_current
+        				visited[q[0]] = 1
+        				for a in adj[q[0]]:
+        					q.append(a)
+        			q.pop(0)
 
-print lo, hi
+        	dists.append(dist_sum)
+
+        return dists
+
+
+        # naive BFS solution
+        """
+        adj = [[] for _ in xrange(N)]
+
+        for p in edges:
+        	adj[p[0]].append(p[1])
+        	adj[p[1]].append(p[0])
+
+        dists = []
+
+        for root in xrange(N):
+
+        	visited = [0]*N
+        	visited[root] = 1
+        	dist_sum = 0
+        	dist_current = 0
+
+        	q = []
+        	for a in adj[root]:
+        		q.append(a)
+
+        	while q:
+        		# increment distance
+        		dist_current += 1
+
+        		size = len(q)
+        		for _ in xrange(size):
+        			if visited[q[0]]:
+        				q.pop(0)
+        				continue
+        			else:
+        				dist_sum += dist_current
+        				visited[q[0]] = 1
+        				for a in adj[q[0]]:
+        					q.append(a)
+        			q.pop(0)
+
+        	dists.append(dist_sum)
+
+        return dists
+        """
+
+		# or, treat tree as a tree
+		# dist from child to parent is 1
+		# keep on going up until a common parent is found
+		# add dist from that parent to child 1 to child 2
+
+		# DP problem
+
+		# each node should have a dict with children nodes as
+		#  keys and distances as values
+
+		# to find sum of distances, from A,
+		#  - calculate distance from A to a parent
+		#  - multiply that distance by number of children (-1)
+		#  - add all children values (except itself)
+		#  - continue to next parent
+
+		# create tree
+		# each node should have a dict child_node:dist_to_child
+		# 
+
+		# https://leetcode.com/problems/sum-of-distances-in-tree/description/
+
+sol = Solution()
+print sol.sumOfDistancesInTree(6, [[0,1],[0,2],[2,3],[2,4],[2,5]])

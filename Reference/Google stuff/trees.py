@@ -20,21 +20,21 @@ def total(tree):
 def print_tree_preorder(tree):
 	if tree is None:
 		return
-	print(tree.cargo, end=" ")
+	print(str(tree.cargo) + " ")
 	print_tree_preorder(tree.left)
 	print_tree_preorder(tree.right)
 
 def print_tree_inorder(tree):
 	if tree is None: return
 	print_tree_inorder(tree.left)
-	print(tree.cargo, end=" ")
+	print(str(tree.cargo) + " ")
 	print_tree_inorder(tree.right)
 
 def print_tree_postorder(tree):
 	if tree is None: return
 	print_tree_postorder(tree.left)
 	print_tree_postorder(tree.right)
-	print(tree.cargo, end=" ")
+	print(str(tree.cargo) + " ")
 
 def print_tree_indented(tree, level=0):
 	if tree is None: return
@@ -80,7 +80,11 @@ def get_sum(token_list):
 # create expression tree for 1 + 2 * 3
 tree = Tree("+", Tree(1), Tree("*", Tree(2), Tree(3)))
 
-token_list = [9, "*", "(", 11, "+", 5, "*", 7, "end"]
+token_list = [9, "*", "(", 11, "+", 5, "*", 7, ")", "end"]
 tree = get_sum(token_list)
+print_tree_preorder(tree)
+print "----------"
+print_tree_inorder(tree)
+print "----------"
 print_tree_postorder(tree)
 print()
