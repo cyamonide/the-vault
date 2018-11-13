@@ -60,7 +60,8 @@
     ],
     "latex-workshop.view.pdf.viewer": "browser",
     "explorer.confirmDragAndDrop": false,
-    "workbench.colorTheme": "FlatUI Dark",
+    "workbench.colorTheme": "Monokai Dimmed",
     "markdown-pdf.format": "Letter",
-    "latex-workshop.message.update.show": false
+    "latex-workshop.message.update.show": false,
+    "git.confirmSync": false
 }

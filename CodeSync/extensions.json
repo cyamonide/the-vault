@@ -7,6 +7,7 @@
         "lkytal.FlatUI",
         "ms-python.python",
         "ms-vscode.cpptools",
+        "ms-vscode.wordcount",
         "redhat.java",
         "ruoz.coq",
         "sjhuangx.vscode-scheme",
