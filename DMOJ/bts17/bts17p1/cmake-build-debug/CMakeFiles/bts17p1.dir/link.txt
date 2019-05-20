@@ -1,1 +1,0 @@
-/usr/bin/c++  -g   CMakeFiles/bts17p1.dir/main.cpp.o  -o bts17p1 

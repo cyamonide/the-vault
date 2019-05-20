@@ -1,3 +1,0 @@
-"C:\Program Files\JetBrains\CLion 2017.2.2\bin\cmake\bin\cmake.exe" -E remove -f CMakeFiles\Workshop.dir/objects.a
-C:\MinGW\bin\ar.exe cr CMakeFiles\Workshop.dir/objects.a @CMakeFiles\Workshop.dir\objects1.rsp
-C:\MinGW\bin\g++.exe -g   -Wl,--whole-archive CMakeFiles\Workshop.dir/objects.a -Wl,--no-whole-archive  -o Workshop.exe -Wl,--out-implib,libWorkshop.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\Workshop.dir\linklibs.rsp
